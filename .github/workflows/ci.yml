@@ -33,3 +33,6 @@ jobs:
 
       - name: do mypy check
         run: uv run mypy src/
+
+      - name: do pytest
+        run: uv run pytest
