@@ -2,7 +2,7 @@ import argparse
 
 import matplotlib.pyplot as plt
 import numpy as np
-from sklearn.datasets import make_classification
+from sklearn.datasets import make_classification  # type: ignore[import-untyped]
 
 from perceptron.model import Perceptron
 
