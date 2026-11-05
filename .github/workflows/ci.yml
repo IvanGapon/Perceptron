@@ -1,0 +1,35 @@
+name: ci
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  lint-and-typecheck:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: copy code
+        uses: actions/checkout@v4
+
+      - name: set python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: install uv
+        uses: astral-sh/setup-uv@v5
+
+      - name: install dependence
+        run: uv sync --all-extras
+
+      - name: do Ruff check
+        run: uv run ruff check .
+
+      - name: do Ruff format check
+        run: uv run ruff format --check .
+
+      - name: do mypy check
+        run: uv run mypy src/
