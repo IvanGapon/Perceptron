@@ -2,13 +2,18 @@ import argparse
 
 import matplotlib.pyplot as plt
 import numpy as np
-from sklearn.datasets import make_classification  # type: ignore[import-untyped]
+from sklearn.datasets import load_iris, make_classification  # type: ignore[import-untyped]
 
 from perceptron.model import Perceptron
 
 
 def main() -> None:
     parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--dataset",
+        choices=["synthetic", "iris"],
+        default="synthetic",
+    )
     parser.add_argument(
         "--samples",
         type=int,
@@ -26,16 +31,23 @@ def main() -> None:
     )
 
     args = parser.parse_args()
+    if args.dataset == "iris":
+        iris = load_iris()
+        X = iris.data
+        y = iris.target
 
-    X, y = make_classification(
-        n_samples=args.samples,
-        n_features=2,
-        n_informative=2,
-        n_redundant=0,
-        n_clusters_per_class=1,
-        class_sep=2.5,
-        flip_y=0.0,
-    )
+        X = X[y < 2, 2:4]
+        y = y[y < 2]
+    else:
+        X, y = make_classification(
+            n_samples=args.samples,
+            n_features=2,
+            n_informative=2,
+            n_redundant=0,
+            n_clusters_per_class=1,
+            class_sep=3.0,
+            flip_y=0.0,
+        )
 
     model = Perceptron(n_features=2, learning_rate=args.lr, epochs=args.epochs)
     final_score = model.train(X, y)
