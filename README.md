@@ -15,8 +15,11 @@
 <h3 align="center">Как запустить</h3>
 
 Программа запускается через менеджер зависимостей `uv` одной командой из терминала:
-
  **Запуск на:**
+ Сначала нужно скопировать репзиторий через команду 
+ ```bash
+git clone https://github.com/IvanGapon/Perceptrone.git
+```
    ```bash
    uv run python src/perceptron/main.py --dataset "synthetic"  --samples 200 --lr 0.1 --epochs 50
   ```
